@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #222831;
+}
+.contenedor{
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+
+}
+
+.pokemon{
+    width: 75%;
+    height: 40vh;
+    display: flex;
+    margin: 24px;
+    border-radius: 9%;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.img{
+    background: #E9E1CC;
+    border-radius: 50%;
+}
+
+.numero{
+    font-family: 'Merriweather', serif;
+    font-size: 20px;
+}
+
+.numero::before{
+    content: '#';
+}
+
+.name{
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+}
+
+.type__unico{
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
