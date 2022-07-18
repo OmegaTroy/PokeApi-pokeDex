@@ -1,3 +1,4 @@
+
 const pokemon_count = 898;
 const div = document.getElementById('div')
 
@@ -55,7 +56,7 @@ const fetchPokemons = async () => {
 const getPokemon = async (id) => {
     let url = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     let data = await url.json();
-    createPokemon(data);
+    await createPokemon(data);
 }
 
 const createPokemon = (pokemon) => {
@@ -66,7 +67,6 @@ const createPokemon = (pokemon) => {
     const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
     const id = pokemon.id.toString().padStart(3,'0');
     const types = pokemon.types.map(type => tipos[type.type.name]);
-    console.log(types)
     const type = main_types.find(type => types.indexOf(type)  > -1);
     const dosType = types.join('  ')
     const color = colors[type];
@@ -75,7 +75,7 @@ const createPokemon = (pokemon) => {
     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${name}" class="img">
     <span class="numero">${id}</span>
     <h2 class="name">${name}</h2>
-    <small class="type">Tipo: <span class="type__unico">${dosType}</span></small>
+    <span class="type__unico">${dosType}</span>
     `; 
     pokeEl.style.backgroundColor = color;
     pokeEl.innerHTML = pokeInnerHTML;
