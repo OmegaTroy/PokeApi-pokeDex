@@ -81,5 +81,24 @@ const createPokemon = (pokemon) => {
     pokeEl.innerHTML = pokeInnerHTML;
     div.appendChild(pokeEl);
 }
+fetchPokemons();
 
-fetchPokemons()
+let buscador = document.getElementById('buscador__input');
+
+
+buscador.addEventListener('keypress',e=>{
+    let pokes = document.querySelectorAll('.pokemon')
+
+})
+
+buscador.addEventListener('keyup',e=>{
+    let pokes = document.querySelectorAll('.pokemon');
+    pokes.forEach((el) => 
+    el.textContent.toLowerCase().includes(e.target.value)
+    ? el.classList.remove('filter')
+    :el.classList.add('filter'));
+    if(e.key=== 'delete'){
+        el.classList.remove('filter')
+    }
+
+})
