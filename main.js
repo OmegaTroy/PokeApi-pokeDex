@@ -1,6 +1,8 @@
+const $ = Selector => document.querySelector(Selector);
+const $Container = $('#container');
+const pokemon_count = 1015;
 
-const pokemon_count = 898;
-const div = document.getElementById('div')
+
 
 const colors = {
     Fuego: '#FF7878',
@@ -23,6 +25,7 @@ const colors = {
     Hielo: '#B5EAEA'
 }
 
+const main_types = Object.keys(colors);
 
 const tipos = {
     fire: 'Fuego',
@@ -44,61 +47,41 @@ const tipos = {
     steel: 'Acero',
     ice: 'Hielo'
 }
-const main_types = Object.keys(colors);
 
-const fetchPokemons = async () => {
+
+const getPokemon = async()=>{
     for(let i = 1; i <= pokemon_count; i++){
-        await getPokemon(i);
+        await fetchData(i)
     }
 }
 
-
-const getPokemon = async (id) => {
-    let url = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    let data = await url.json();
-    await createPokemon(data);
+const fetchData = async (id) =>{
+    let data = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    let pokemonData = await data.json()
+    console.log(pokemonData)
+    await createPokemon(pokemonData)
 }
 
-const createPokemon = (pokemon) => {
-    const pokeEl = document.createElement('div');
-    const pokeInfo = document.getElementsByClassName('info');
-    pokeEl.classList.add('pokemon');
 
+const createPokemon =(pokemon)=>{
+    const pokeContainer = document.createElement('div')
+    pokeContainer.classList.add('pokemon')
     const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+    const type = pokemon.types.map(type => tipos[type.type.name]);
+    const types = type.join(' ')
     const id = pokemon.id.toString().padStart(3,'0');
-    const types = pokemon.types.map(type => tipos[type.type.name]);
-    const type = main_types.find(type => types.indexOf(type)  > -1);
-    const dosType = types.join('  ')
-    const color = colors[type];
-
-    const pokeInnerHTML =`
-    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${name}" class="img">
-    <span class="numero">${id}</span>
-    <h2 class="name">${name}</h2>
-    <span class="type__unico">${dosType}</span>
-    `; 
-    pokeEl.style.backgroundColor = color;
-    pokeEl.innerHTML = pokeInnerHTML;
-    div.appendChild(pokeEl);
+    const backgroundType = main_types.find(type => types.indexOf(type)  > -1);
+    const color = colors[backgroundType]
+    const newPokemon = `
+    <h3 class='name'>${name}</h3>
+    <img src=${pokemon.sprites.front_default} class='sprites'/>
+        <b class='numero'>${id}</b>
+    <p class='type__unico'>${types}</p>
+    `
+    pokeContainer.style.background = color
+    pokeContainer.innerHTML = newPokemon;
+    $Container.appendChild(pokeContainer)
 }
-fetchPokemons();
-
-let buscador = document.getElementById('buscador__input');
 
 
-buscador.addEventListener('keypress',e=>{
-    let pokes = document.querySelectorAll('.pokemon')
-
-})
-
-buscador.addEventListener('keyup',e=>{
-    let pokes = document.querySelectorAll('.pokemon');
-    pokes.forEach((el) => 
-    el.textContent.toLowerCase().includes(e.target.value)
-    ? el.classList.remove('filter')
-    :el.classList.add('filter'));
-    if(e.key=== 'delete'){
-        el.classList.remove('filter')
-    }
-
-})
+    getPokemon()
